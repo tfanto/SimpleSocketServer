@@ -18,7 +18,7 @@ public class DNIDHandler {
 	}
 	
 	public Response execute(){
-		return new Response(arguments.get(0) + " DNID >");
+		return new Response(arguments.get(0) + " DNID");
 	}
 
 

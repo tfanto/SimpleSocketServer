@@ -135,10 +135,10 @@ public class Main {
 					if (pollHandler.verify()) {
 						return pollHandler.execute();
 					} else {
-						return new Response("POLL request not OK >");
+						return new Response("POLL request not OK");
 					}
 				} else
-					return new Response("No arguments passed in POLL command >");
+					return new Response("No arguments passed in POLL command");
 			}
 
 		});
@@ -151,10 +151,10 @@ public class Main {
 					if (dnidHandler.verify()) {
 						return dnidHandler.execute();
 					} else {
-						return new Response("DNID request not OK >");
+						return new Response("DNID request not OK");
 					}
 				} else
-					return new Response("No arguments passed in DNID command >");
+					return new Response("No arguments passed in DNID command");
 			}
 
 		});

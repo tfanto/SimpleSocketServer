@@ -96,7 +96,7 @@ public class Client implements Runnable {
 				String pwd = readLine(in);
 				isAuthenticated = autenticate(user, pwd);
 			}
-			if(!isAuthenticated) {
+			if (!isAuthenticated) {
 				return;
 			}
 			write(out, ">");
@@ -125,6 +125,7 @@ public class Client implements Runnable {
 				}
 				write(out, response);
 				write(out, Command.END);
+				write(out, ">");
 				out.flush();
 				if (response.keepalive() == false) {
 					break;
@@ -136,18 +137,25 @@ public class Client implements Runnable {
 			return;
 		} finally {
 			try {
-				in.close();
+				if (in != null) {
+					in.close();
+				}
 			} catch (IOException e) {
-
+				LOGGER.info(e.toString(), e);
 			}
 			try {
-				out.close();
-			} catch (IOException e1) {
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException e) {
+				LOGGER.info(e.toString(), e);
 			}
 			try {
-				socket.close();
+				if (socket != null) {
+					socket.close();
+				}
 			} catch (IOException e) {
-
+				LOGGER.info(e.toString(), e);
 			}
 		}
 	}
