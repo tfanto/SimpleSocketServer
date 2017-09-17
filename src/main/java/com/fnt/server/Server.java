@@ -68,7 +68,7 @@ public class Server implements Runnable {
 			socket = new ServerSocket(port, backlog, bind);
 			socket.setSoTimeout(getTimeout());
 		} catch (IOException e) {
-			LOGGER.equals("Could not get a server socket. Server will not start");
+			LOGGER.error("Could not get a server socket. Server will not start");
 			LOGGER.error(e.toString(), e);
 			stop();
 		}
