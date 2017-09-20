@@ -6,16 +6,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Client implements Runnable {
+public class Channel implements Runnable {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Client.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Channel.class);
 
 	private Socket socket = null;
 	private Server server = null;
@@ -29,7 +27,7 @@ public class Client implements Runnable {
 		return socket;
 	}
 
-	public Client(final Socket socket, final Server server) throws IOException {
+	public Channel(final Socket socket, final Server server) throws IOException {
 		this.socket = socket;
 		this.server = server;
 		try {
@@ -75,6 +73,27 @@ public class Client implements Runnable {
 		return user.trim().equals(allowed_uid) && pwd.trim().equals(allowed_pwd);
 	}
 
+	private String getCommand(StringTokenizer st) {
+		String command = st.nextToken();
+		return command;
+	}
+
+	private String getArguments(StringTokenizer st) {
+
+		String ret = "";
+
+		int n = st.countTokens();
+		if (n >= 1) {
+			while (st.hasMoreTokens()) {
+				String tok = st.nextToken().trim();
+				ret += tok;
+				ret += " ";
+			}
+			ret = ret.trim();
+		}
+		return ret;
+	}
+
 	public void run() {
 
 		OutputStream out = null;
@@ -104,23 +123,17 @@ public class Client implements Runnable {
 			Response response = new Response();
 			while ((line = in.readLine()) != null) {
 				if (line == null || line.length() == 0) {
-					response.set(Command.ERROR);
+					response.set(Command.ERROR.getBytes("uf-8"));
 				} else {
 					StringTokenizer st = new StringTokenizer(line);
-					String command = st.nextToken();
+					String command = getCommand(st);
 					command = command.toLowerCase();
 					if (this.getServer().getCommands().containsKey(command)) {
-						int n = st.countTokens();
-						List<String> arguments = new ArrayList<>();
-						if (n >= 1) {
-							while (st.hasMoreTokens()) {
-								arguments.add(st.nextToken());
-							}
-						}
+						String arguments = getArguments(st);
 						Command commandHandler = this.getServer().getCommands().get(command);
 						response = commandHandler.handle(arguments);
 					} else {
-						response.set(Command.UNKNOWN);
+						response.set(Command.UNKNOWN.getBytes("utf-8"));
 					}
 				}
 				write(out, response);

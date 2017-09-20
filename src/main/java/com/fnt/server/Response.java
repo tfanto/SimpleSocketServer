@@ -1,7 +1,9 @@
 package com.fnt.server;
 
+import java.io.UnsupportedEncodingException;
+
 public class Response {
-	private String response = null;
+	private byte[] response = null;
 	private boolean keepalive = true;
 
 	public boolean keepalive() {
@@ -12,25 +14,36 @@ public class Response {
 		this.keepalive = keepalive;
 	}
 
-	public Response(String string, boolean keepalive) {
-		this.response = string;
+	public Response(byte[] data, boolean keepalive) {
+		this.response = data;
 		this.keepalive = keepalive;
 	}
 
-	public Response(String string) {
-		this.response = string;
+	public Response(byte[] data) {
+		this.response = data;
+	}
+
+	public byte[] getBytes() {
+		if (response != null) {
+			return response;
+		} else {
+			return new byte[0];
+		}
 	}
 
 	public Response() {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public String toString() {
-		return response;
+		try {
+			return new String(response, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
 	}
 
-	public void set(String response) {
+	public void set(byte[] response) {
 		this.response = response;
 	}
 

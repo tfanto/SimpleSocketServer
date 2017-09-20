@@ -1,24 +1,24 @@
 package com.fnt.handler;
 
-import java.util.List;
+import java.io.UnsupportedEncodingException;
 
 import com.fnt.server.Response;
 
 public class POLLHandler {
 
-	private List<String> arguments;
+	private String arguments;
 
-	public POLLHandler(List<String> arguments) {
+	public POLLHandler(String arguments) {
 		this.arguments = arguments;
 	}
-	
-	public boolean verify(){
-		
+
+	public boolean verify() {
+
 		return true;
 	}
-	
-	public Response execute(){
-		return new Response(arguments.get(0) + " POLL");
+
+	public Response execute() throws UnsupportedEncodingException {
+		return new Response((arguments + " POLL").getBytes("utf-8"));
 	}
 
 }

@@ -76,7 +76,7 @@ public class Server implements Runnable {
 		while (loop) {
 			try {
 				Socket clientSocket = socket.accept();
-				Thread jobThread = new Thread(new Client(clientSocket, this));
+				Thread jobThread = new Thread(new Channel(clientSocket, this));
 				jobThread.start();
 			} catch (IOException e) {
 				LOGGER.error(e.toString(), e);

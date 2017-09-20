@@ -2,7 +2,7 @@ package com.fnt.server;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -129,32 +129,32 @@ public class Main {
 
 		server.registerCommand(new Command("POLL") {
 			@Override
-			public Response handle(List<String> arguments) {
-				if (arguments.size() > 0) {
+			public Response handle(String arguments) throws UnsupportedEncodingException {
+				if (arguments.length() > 0) {
 					POLLHandler pollHandler = new POLLHandler(arguments);
 					if (pollHandler.verify()) {
 						return pollHandler.execute();
 					} else {
-						return new Response("POLL request not OK");
+						return new Response("POLL request not OK".getBytes("utf-8"));
 					}
 				} else
-					return new Response("No arguments passed in POLL command");
+					return new Response("No arguments passed in POLL command".getBytes("utf-8"));
 			}
 
 		});
 
 		server.registerCommand(new Command("DNID") {
 			@Override
-			public Response handle(List<String> arguments) {
-				if (arguments.size() > 0) {
+			public Response handle(String arguments) throws UnsupportedEncodingException {
+				if (arguments.length() > 0) {
 					DNIDHandler dnidHandler = new DNIDHandler(arguments);
 					if (dnidHandler.verify()) {
 						return dnidHandler.execute();
 					} else {
-						return new Response("DNID request not OK");
+						return new Response("DNID request not OK".getBytes("utf-8"));
 					}
 				} else
-					return new Response("No arguments passed in DNID command");
+					return new Response("No arguments passed in DNID command".getBytes("utf-8"));
 			}
 
 		});
@@ -162,8 +162,8 @@ public class Main {
 		server.registerCommand(new Command("quit") {
 
 			@Override
-			public Response handle(List<String> arguments) {
-				return new Response("bye", false);
+			public Response handle(String arguments) throws UnsupportedEncodingException {
+				return new Response("bye".getBytes("utf-8"), false);
 			}
 
 		});

@@ -1,25 +1,24 @@
 package com.fnt.handler;
 
-import java.util.List;
+import java.io.UnsupportedEncodingException;
 
 import com.fnt.server.Response;
 
 public class DNIDHandler {
 
-	private List<String> arguments;
+	private String arguments;
 
-	public DNIDHandler(List<String> arguments) {
+	public DNIDHandler(String arguments) {
 		this.arguments = arguments;
 
 	}
-	
-	public boolean verify(){
+
+	public boolean verify() {
 		return true;
 	}
-	
-	public Response execute(){
-		return new Response(arguments.get(0) + " DNID");
-	}
 
+	public Response execute() throws UnsupportedEncodingException {
+		return new Response((arguments + " DNID").getBytes("utf-8"));
+	}
 
 }
