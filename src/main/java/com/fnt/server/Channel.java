@@ -127,7 +127,7 @@ public class Channel implements Runnable {
 				} else {
 					StringTokenizer st = new StringTokenizer(line);
 					String command = getCommand(st);
-					command = command.toLowerCase();
+					command = command.toLowerCase().trim();
 					if (this.getServer().getCommands().containsKey(command)) {
 						String arguments = getArguments(st);
 						Command commandHandler = this.getServer().getCommands().get(command);

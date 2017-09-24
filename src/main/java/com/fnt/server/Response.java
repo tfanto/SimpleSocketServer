@@ -37,7 +37,7 @@ public class Response {
 
 	public String toString() {
 		try {
-			return new String(response, "utf-8");
+			return new String(getBytes(), "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			return "";
 		}
